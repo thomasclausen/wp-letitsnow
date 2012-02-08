@@ -19,12 +19,10 @@ function letitsnow_scripts() {
 		$output = wp_remote_fopen( $xmlUrl );
 		$xmlData  = simplexml_load_string( $output );
 		$conditions = array();
-		$conditions['current']['city'] = $xmlData->weather->forecast_information->city['data'];
 		$conditions['current']['condition'] = $xmlData->weather->current_conditions->condition['data'];
 		$conditions['current']['icon'] = $xmlData->weather->current_conditions->icon['data'];
-
 		$search = array( 'sne', 'snow', 'flurries', 'sleet', 'icy' ); // words to search for
-		if ( strpos( strtolower( $conditions['current']['condition'] ), $search ) == false ) {
+		if ( strpos( strtolower( $conditions['current']['condition'] ), $search ) == false ||  strpos( strtolower( $conditions['current']['icon'] ), $search ) == false ) {
 			wp_register_script( 'letitsnow-script', plugins_url( '/letitsnow.js', __FILE__ ), array( 'jquery' ), '0.3' );
 			wp_enqueue_script( 'letitsnow-script' );
 		}
@@ -41,7 +39,7 @@ function letitsnow_array() {
 			'type' => 'radio',
 			'label' => __( 'Aktiver sne', 'letitsnow' ),
 			'id' => 'use',
-			'description' => __( 'Bestemmer om der skal vises sne, om det skal afh&aelig;nge af vejroplysninger fra Google eller om det ikke skal sne.', 'letitsnow' ),
+			'description' => __( 'Bestemmer om der skal vises sne og om det skal afh&aelig;nge af lokale vejroplysninger fra Google.', 'letitsnow' ),
 			'options' => array(
 				array(
 					'value' => 'on',
@@ -183,9 +181,6 @@ function letitsnow_options_page() {
 			} ?>
 			<p class="submit"><input type="submit" name="submit" value="<?php _e( 'Gem &aelig;ndringer', 'letitsnow' ) ?>" class="button-primary" /></p>
 		</form>
-		<?php echo '<pre>'; ?>
-		<?php print_r( $settings ); ?>
-		<?php echo '</pre>'; ?>
 	</div>
 <?php }
 
