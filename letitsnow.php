@@ -197,7 +197,6 @@ function letitsnow_validate( $input ) {
 				break;
 			case 'radio':
 				$input[$option['id']] = wp_kses( $input[$option['id']], '' );
-
 				break;
 			case 'textarea':
 				$input[$option['id']] = wp_kses( $input[$option['id']], array( 'a' => array( 'href' => array(), 'title' => array() ), 'span' => array( 'id' => array(), 'class' => array() ), 'i' => array(), 'em' => array(), 'b' => array(), 'strong' => array(), 'script' => array( 'type' => array() ) ) );
